@@ -1,5 +1,5 @@
 // controllers/userController.js
-const userService = require('../services/userService');
+//const userService = require('../services/userService');
 
 class UserController {
   // 컨트롤러 처리

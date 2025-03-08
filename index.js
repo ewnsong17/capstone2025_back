@@ -2,7 +2,7 @@
 
 // utils
 const config = require('./utils/config');
-const db = require('./utils/db');
+//const db = require('./utils/db');
 
 // routes
 const mainRoutes = require('./routes/mainRoutes');
@@ -17,9 +17,15 @@ app.use(express.json());
 
 console.info(`express 모듈로 ${port} 포트 서버 오픈을 시작합니다.`);
 
-app.use('main', mainRoutes);
-app.use('search', serachRoutes);
-app.use('user', userRoutes);
+// middle-ware
+app.use((req, res, next) => {
+  console.log(`Request: ${req.method} ${req.url}`);
+  next();  //
+});
+
+app.use('/main', mainRoutes);
+app.use('/search', serachRoutes);
+app.use('/user', userRoutes);
 
 console.info(`API routes module 로드되었습니다.`);
 

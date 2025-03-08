@@ -1,5 +1,5 @@
 // controllers/searchController.js
-const searchService = require('../services/searchService'); // 서비스 레이어 호출
+//const searchService = require('../services/searchService'); // 서비스 레이어 호출
 
 class SearchController {
   // 컨트롤러 처리

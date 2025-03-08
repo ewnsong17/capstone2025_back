@@ -1,5 +1,5 @@
 // controllers/mainController.js
-const mainService = require('../services/mainService'); // 서비스 레이어 호출
+//const mainService = require('../services/mainService'); // 서비스 레이어 호출
 
 class MainController {
   // 컨트롤러 처리
