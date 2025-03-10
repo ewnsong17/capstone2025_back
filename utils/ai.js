@@ -39,9 +39,15 @@ class AI {
     // AI 모델 로드
     const model = await this.loadAIModel();
 
+    console.log("Keywords!", keywords);
+
     // 예시로 AI 모델에 필요한 데이터를 구성 (여기서는 단순히 날짜와 키워드를 텐서로 변환)
     const inputTensor = tf.tensor([startDate, endDate, ...keywords]);
-    const predictions = model.predict(inputTensor);
+
+    // Ensure input tensor has the shape [batch_size, input_length]
+    const reshpaedInput = inputTensor.reshape([1, 5]); // Reshape it to the correct shape [batch_size, 5]
+
+    const predictions = model.predict(reshpaedInput);
 
     // 예시로 예측된 여행 일정 (실제로는 AI가 더 복잡한 로직을 수행)
     const itinerary = predictions.dataSync();
@@ -54,7 +60,7 @@ class AI {
     console.log('여행 기간:', startDate, '부터', endDate);
 
     // Google Places API로 각 키워드에 맞는 장소들 검색
-    const places = await Promise.all(keywords.map(keyword => this.searchPlaces(city, keyword)));
+//    const places = await Promise.all(keywords.map(keyword => this.searchPlaces(city, keyword)));
 
     // AI 모델로 여행 일정 생성
     const itinerary = await this.generateTravelPlan(city, startDate, endDate, keywords);
