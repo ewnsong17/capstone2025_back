@@ -1,4 +1,5 @@
 // services/mainService.js
+const db = require('../utils/db'); // DB 연결
 
 class MainService {
 

@@ -1,4 +1,5 @@
 // services/searchService.js
+const db = require('../utils/db'); // DB 연결
 
 class SearchService {
 

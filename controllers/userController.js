@@ -30,12 +30,15 @@ class UserController {
    */
   async getLogin(req, res) {
     try {
-      const { id, pwd } = req;
-      const users = await userService.getLogin(id, pwd);
-      if (users.length) {
-        user = users[0];
+      const { id, pwd } = req.body;
+      console.log(id, pwd);
+      const user = await userService.getLogin(id, pwd);
+      if (user != null) {
+        req.session.user = user;
+        res.status(200).json({result: true});
+      } else {
+        throw new Error('유저 정보가 존재하지 않습니다.');
       }
-      res.status(200).json({result: true});
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
     }
@@ -43,8 +46,12 @@ class UserController {
 
   async getLogout(req, res) {
     try {
-  //    const users = await mainService.getUsers(); // 서비스에서 데이터를 가져옴
-      res.status(200).json({result: true});
+      req.session.destroy((err) => {
+        if (err) {
+          throw new Error(err);
+        }
+        res.status(200).json({result: true});
+      });
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
     }
@@ -52,8 +59,13 @@ class UserController {
 
   async getReviews(req, res) {
     try {
-  //    const users = await mainService.getUsers(); // 서비스에서 데이터를 가져옴
-      res.status(200).json({result: true, review_list: {}});
+      const user = req.session.user;
+      if (user != null) {
+        const review_list = await userService.getReviewList(user.id); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: true, review_list: review_list});
+      } else {
+        throw new Error('로그인 정보가 존재하지 않습니다.');
+      }
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
     }
@@ -62,9 +74,14 @@ class UserController {
 
   async getFavorite(req, res) {
     try {
-      const { pkg_id } = req;
-  //    const users = await mainService.getUsers(); // 서비스에서 데이터를 가져옴
-      res.status(200).json({result: true});
+      const { pkg_id } = req.body;
+      const user = req.session.user;
+      if (user != null) {
+        const result = await userService.addFavorite(user.id, pkg_id); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: result});
+      } else {
+        throw new Error('로그인 정보가 존재하지 않습니다.');
+      }
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
     }

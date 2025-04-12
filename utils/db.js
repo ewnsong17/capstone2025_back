@@ -4,7 +4,7 @@ const config = require('./config');
 
 class DB {
   constructor() {
-    this.connection = mysql.createPool({
+    this.pool = mysql.createPool({
       host: config.db.host,  // MySQL 서버의 호스트 주소
       user: config.db.user,       // MySQL 사용자명
       password: config.db.password,  // MySQL 비밀번호
