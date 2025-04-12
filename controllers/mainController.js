@@ -5,8 +5,8 @@ class MainController {
   // 컨트롤러 처리
   async getBanners(req, res) {
     try {
-  //    const users = await mainService.getUsers(); // 서비스에서 데이터를 가져옴
-      res.status(200).json({result: true, banner_list: ['/banner_ex_1.png', 'banner_ex_2.png']});
+      const banner_list = await mainService.getMainImageList('banner'); // 서비스에서 데이터를 가져옴
+      res.status(200).json({result: true, banner_list: banner_list});
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
     }
@@ -15,8 +15,8 @@ class MainController {
 
   async getPackages(req, res) {
     try {
-  //    const users = await mainService.getUsers(); // 서비스에서 데이터를 가져옴
-      res.status(200).json({result: true, package_list: ['/banner_ex_1.png', 'banner_ex_2.png']});
+      const package_list = await mainService.getMainImageList('package'); // 서비스에서 데이터를 가져옴
+      res.status(200).json({result: true, package_list: package_list});
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
     }
@@ -24,8 +24,9 @@ class MainController {
 
   async getPlaces(req, res) {
     try {
-  //    const users = await mainService.getUsers(); // 서비스에서 데이터를 가져옴
-      res.status(200).json({result: true, inner: ['서울', '인천'], outer: ['영국', '프랑스']});
+      const {inner_list, outer_list} = await mainService.getPlaceList(); // 서비스에서 데이터를 가져옴
+      console.log(inner_list, outer_list);
+      res.status(200).json({result: true, inner: inner_list, outer: outer_list});
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
     }

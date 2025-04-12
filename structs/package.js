@@ -1,7 +1,8 @@
 class Package {
-    constructor(id, name, price, start_date, end_date, country, image) {
+    constructor(id, name, type, price, start_date, end_date, country, image) {
         this.id = id;
         this.name = name;
+        this.type = type;
         this.price = price;
         this.start_date = start_date;
         this.end_date = end_date;

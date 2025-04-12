@@ -2,7 +2,6 @@
 const db = require('../utils/db'); // DB 연결
 const User = require('../structs/user');
 const Review = require('../structs/review');
-const Package = require('../structs/review');
 const crypto = require('crypto');
 
 class UserService {
@@ -59,6 +58,11 @@ class UserService {
     }
   }
 
+  /**
+   * 유저 리뷰 리스트 가져오기
+   * @param {*} user_id 
+   * @returns 
+   */
   async getReviewList(user_id) {
     try {
       const results = await db.query("SELECT re.id, inf.name, inf.price, inf.start_date, inf.end_date,\
@@ -77,6 +81,12 @@ class UserService {
     }
   }
 
+  /**
+   * 유저 찜 추가 / 삭제 하기
+   * @param {*} user_id 
+   * @param {*} pkg_id 
+   * @returns 
+   */
   async addFavorite(user_id, pkg_id) {
     try {
       const duplicateChk = await db.query(
