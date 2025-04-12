@@ -2,7 +2,6 @@
 
 // utils
 const config = require('./utils/config');
-//const db = require('./utils/db');
 
 // routes
 const mainRoutes = require('./routes/mainRoutes');
@@ -11,21 +10,24 @@ const userRoutes = require('./routes/userRoutes');
 
 // express
 const express = require('express');
+const multer = require('multer');
 const app = express();
 const port = config.server.port;
 app.use(express.json());
+
+const upload = multer();
 
 console.info(`express 모듈로 ${port} 포트 서버 오픈을 시작합니다.`);
 
 // middle-ware
 app.use((req, res, next) => {
   console.log(`Request: ${req.method} ${req.url}`);
-  next();  //
+  next(); // 미들웨어 처리
 });
 
-app.use('/main', mainRoutes);
-app.use('/search', serachRoutes);
-app.use('/user', userRoutes);
+app.use('/main', upload.none(), mainRoutes);
+app.use('/search', upload.none(), serachRoutes);
+app.use('/user', upload.none(), userRoutes);
 
 console.info(`API routes module 로드되었습니다.`);
 

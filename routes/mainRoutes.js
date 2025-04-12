@@ -7,6 +7,5 @@ const mainController = require('../controllers/mainController');
 router.post('/banners', (req, res) => mainController.getBanners(req, res));
 router.post('/packages', (req, res) => mainController.getPackages(req, res));
 router.post('/places', (req, res) => mainController.getPlaces(req, res));
-router.post('/test', (req, res) => mainController.getTest(req, res));
 
 module.exports = router;
