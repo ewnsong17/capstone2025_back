@@ -7,3 +7,6 @@ Google Maps for JS
 
 Google Map Image API
 - https://developers.google.com/maps/documentation/maps-static?hl=ko
+
+SQL (8.0.41)
+- https://dev.mysql.com/downloads/installer/
