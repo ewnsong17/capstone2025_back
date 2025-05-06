@@ -9,6 +9,9 @@ const config = {
       password: 'root',  // MySQL 비밀번호
       database: 'capstone',   // 사용할 데이터베이스명
       port: 3306             // MySQL 포트 (기본값 3306)
+    },
+    ai: {
+      api_key: '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',
     }
   };
   
