@@ -16,10 +16,12 @@ const FileStore = require('session-file-store')(session);
 
 const multer = require('multer');
 const upload = multer();
+const cors = require('cors');
 
 const app = express();
 const port = config.server.port;
 app.use(express.json());
+app.use(cors());
 
 console.info(`express 모듈로 ${port} 포트 서버 오픈을 시작합니다.`);
 
