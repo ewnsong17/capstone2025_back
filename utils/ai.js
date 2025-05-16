@@ -11,12 +11,18 @@ class AI {
 
   // AI 프롬프트
   async runPrompt(ask) {
-    const chatCompletion = await this.ai.chat.completions.create({
-      messages: [{role: 'user', content: ask}],
-      model: 'gpt-3.5-turbo',
-    });
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.ai.apiKey}`,
+      {
+        contents: [
+          {
+            parts: [{ text: ask }]
+          }
+        ]
+      }
+    );
 
-    return chatCompletion.choices[0].message.content;
+    return response.data.candidates[0].content.parts[0].text;
   }
 }
 
