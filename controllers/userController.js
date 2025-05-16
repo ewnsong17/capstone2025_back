@@ -44,6 +44,11 @@ class UserController {
     }
   }
 
+  /**
+   * 유저 로그아웃 처리
+   * @param {*} req 
+   * @param {*} res 
+   */
   async getLogout(req, res) {
     try {
       req.session.destroy((err) => {
@@ -56,7 +61,12 @@ class UserController {
       res.status(500).json({result: false, exception: error.message});
     }
   }
-
+  
+  /**
+   * 유저 리뷰 처리
+   * @param {*} req 
+   * @param {*} res 
+   */
   async getReviews(req, res) {
     try {
       const user = req.session.user;
@@ -71,7 +81,11 @@ class UserController {
     }
   }
 
-
+  /**
+   * 유저 저장 처리
+   * @param {*} req 
+   * @param {*} res 
+   */
   async getFavorite(req, res) {
     try {
       const { pkg_id } = req.body;
