@@ -53,12 +53,14 @@ class SearchService {
 
   /**
    * AI 답변 가져오기
-   * @param {*} ask 
+   * @param {*} start_date 
+   * @param {*} end_date 
+   * @param {*} city 
    * @returns 
    */
-  async getAskAI(ask) {
+  async getAskAI(start_date, end_date, city) {
     try {
-      return await ai.runPrompt(ask);
+      return await ai.runPrompt(start_date, end_date, city);
     } catch (err) {
       console.error(err);
       throw new Error(err);

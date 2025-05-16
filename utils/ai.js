@@ -11,7 +11,7 @@ class AI {
   }
 
   // AI 프롬프트
-  async runPrompt(ask) {
+  async runPrompt(start_date, end_date, city) {
     let generatedText = "";
     try {
       const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${this.ai.apiKey}`;
@@ -23,7 +23,7 @@ class AI {
         body: JSON.stringify({
           contents: [
             {
-              parts: [{ text: ask }]
+              parts: [{ text: `${start_date}부터 ${end_date}까지 ${city}로 여행 갈건데, 날짜 별 여행지 3개씩 추천해줘. 마지막 날은 2개만 추천해줘.` }]
             }
           ]
         })
@@ -36,7 +36,6 @@ class AI {
 
       const data = await response.json();
       generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
       if (generatedText) {
         console.log('Response from Gemini AI:', generatedText);
       } else {
