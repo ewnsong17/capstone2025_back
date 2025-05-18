@@ -36,6 +36,8 @@ INSERT INTO `move_info` (`id`, `place`, `name`, `price`, `date`, `type`) VALUES
 	(6, '서울', '서울호텔A', 110000, '2025-05-18', 'lodge'),
 	(7, '부산', '부산호텔B', 15000, '2025-05-18', 'lodge');
 
+INSERT INTO `capstone`.`search_filter_list` (`id`, `type`) VALUES (3, '스포츠');
+
 ALTER TABLE `user_info`
 ADD COLUMN `image` VARCHAR(300) NOT NULL AFTER `password`,
 ADD COLUMN `birthday` DATE NOT NULL DEFAULT (current_TIMESTAMP()) AFTER `image`,
