@@ -23,7 +23,7 @@ class AI {
         body: JSON.stringify({
           contents: [
             {
-              parts: [{ text: `${start_date}부터 ${end_date}까지 ${city}로 여행 갈건데, 날짜 별 여행지 3개씩 추천해줘. 마지막 날은 2개만 추천해줘.` }]
+              parts: [{ text: `${start_date}부터 ${end_date}까지 ${city}로 여행 갈건데, 각 날짜 별 여행지 3개씩 추천해줘. 마지막 날은 2개만 추천해줘. 각 장소 다음에는 enter 처리한 다음에 간단한 설명을 해줘. '도착일-출발일' 만큼 일정만 짜야돼!` }]
             }
           ]
         })

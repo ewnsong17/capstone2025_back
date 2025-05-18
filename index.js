@@ -25,6 +25,9 @@ app.use(cors());
 
 console.info(`express 모듈로 ${port} 포트 서버 오픈을 시작합니다.`);
 
+/**/
+const ai = require('./utils/ai');
+
 // middle-ware
 app.use((req, res, next) => {
   console.log(`Request: ${req.method} ${req.url}`);
@@ -54,6 +57,26 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {
-  console.info(`서버가 ${port} 포트로 연결되었습니다.`);
+app.post('/api/ai', async (req, res) => {
+  console.log('POST /api/ai 요청 도착:', req.body);
+
+  // 클라이언트에서 보내는 데이터 구조 예시:
+  // { start_date: '2025-01-01', end_date: '2025-01-03', city: '서울' }
+  const { start_date, end_date, city } = req.body;
+
+  if (!start_date || !end_date || !city) {
+    return res.status(400).json({ error: 'start_date, end_date, city 모두 필요합니다.' });
+  }
+
+  try {
+    const generatedText = await ai.runPrompt(start_date, end_date, city);
+    res.json({ generatedText: generatedText || 'AI가 답변을 생성하지 못했습니다.' });
+  } catch (error) {
+    console.error('AI 응답 생성 중 오류:', error);
+    res.status(500).json({ error: '서버 내부 오류 발생' });
+  }
+});
+
+app.listen(3001, () => {
+  console.log('서버 3001포트 시작됨');
 });
