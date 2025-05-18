@@ -10,9 +10,11 @@ class UserService {
    * 유저 회원가입 DB INSERT 처리
    * @param {*} name 
    * @param {*} pwd 
+   * @param {*} image 
+   * @param {*} birthday 
    * @returns 
    */
-  async getSignUp(name, pwd) {
+  async getSignUp(name, pwd, image, birthday) {
     try {
       const duplicateChk = await db.query(
         'SELECT COUNT(*) cnt FROM `user_info` WHERE `name` = ?', [name]);
@@ -24,7 +26,7 @@ class UserService {
       const hass_pwd = crypto.createHash('sha256').update(pwd).digest('hex');
 
       const results = await db.query(
-        'INSERT INTO `user_info` (`name`, `password`) VALUES (?, ?)', [name, hass_pwd]); // 데이터 조회
+        'INSERT INTO `user_info` (`name`, `password`, `image`, `birthday`) VALUES (?, ?, ?, ?)', [name, hass_pwd, image, birthday]); // 데이터 조회
       return results.insertId > 0;
     } catch (err) {
       console.error('쿼리 실행 실패:', err);
@@ -47,7 +49,7 @@ class UserService {
 
       for (var result of results) {
         if (result.password == hass_pwd) {
-          return new User(result.id, result.name);
+          return new User(result.id, result.name, result.image, result.birthday);
         }
       }
 

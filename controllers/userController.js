@@ -11,12 +11,12 @@ class UserController {
    */
   async getSignUp(req, res) {
     try {
-      const { id, pwd } = req.body;
-      console.log(id, pwd);
-      if (id == null || pwd == null) {
+      const { id, pwd, image, birthday } = req.body;
+      console.log(id, pwd, image, birthday);
+      if (id == null || pwd == null || image == null || birthday == null) {
         throw new Error('올바르지 않은 ID 또는 PWD 입니다.');
       }
-      const result = await userService.getSignUp(id, pwd);
+      const result = await userService.getSignUp(id, pwd, image, birthday);
       res.status(200).json({result: result});
     } catch (error) {
       res.status(500).json({result: false, exception: error.message});
