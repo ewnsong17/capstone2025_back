@@ -82,7 +82,7 @@ class SearchService {
       const package_list = [];
 
       for (var result of results) {
-        package_list.push(new Move(result.id, result.place, result.name, result.prce, result.date));
+        package_list.push(new Move(result.id, result.place, result.name, result.price, result.date));
       }
 
       return package_list;
