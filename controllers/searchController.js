@@ -41,6 +41,21 @@ class SearchController {
       res.status(500).json({result: false, exception: error.message});
     }
   }
+
+
+  async getMoves(req, res) {
+    try {
+      const { type, place, date } = req.body;
+      if (type != null && place != null && date != null) {
+        const package_list = await searchService.getMoveList(type, place, date); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: true, result_list: package_list});
+      } else {
+        throw new Error('올바른 타입 또는 가격이 아닙니다.');
+      }
+    } catch (error) {
+      res.status(500).json({result: false, exception: error.message});
+    }
+  }
 }
 
 module.exports = new SearchController();

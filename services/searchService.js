@@ -2,6 +2,7 @@
 const db = require('../utils/db'); // DB 연결
 const ai = require('../utils/ai');
 const Package = require('../structs/package');
+const Move = require('../structs/move');
 
 class SearchService {
 
@@ -64,6 +65,30 @@ class SearchService {
     } catch (err) {
       console.error(err);
       throw new Error(err);
+    }
+  }
+
+  /**
+   * 항공/ 숙소 가져오기
+   * @param {*} type 
+   * @param {*} place 
+   * @param {*} date 
+   * @returns 
+   */
+  async getMoveList(type, place, date) {
+    try {
+      const results = await db.query("SELECT * FROM move_info WHERE `type` = ? AND `place` = ? AND `date` = ? ORDER BY `id` DESC", [type, place, date]); // 데이터 조회
+
+      const package_list = [];
+
+      for (var result of results) {
+        package_list.push(new Move(result.id, result.place, result.name, result.prce, result.date));
+      }
+
+      return package_list;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
     }
   }
 }
