@@ -23,7 +23,7 @@ class AI {
 
       text += ' 여행지 별 설명은 1줄정도로 해주고, 추가 요청은 안받아도 돼.';
 
-      const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${this.ai.apiKey}`;
+      const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-preview-03-25:generateContent?key=${this.ai.apiKey}`;
       const response = await fetch(GEMINI_API_URL, {
         method: 'POST',
         headers: {

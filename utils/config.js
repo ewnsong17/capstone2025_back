@@ -12,7 +12,7 @@ const config = {
       port: 3306             // MySQL 포트 (기본값 3306)
     },
     ai: {
-      api_key: 'AIzaSyC3BWaYMNXCgtEdOTT9CRb3hmj1EceZgeM',
+      api_key: 'AIzaSyD-XwBrgWkScmOmQu0WTYAyHtcyzWXk04E',
     }
   };
   
