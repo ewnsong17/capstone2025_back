@@ -82,9 +82,29 @@ CREATE TABLE IF NOT EXISTS `my_trip_info` (
 -- 테이블 데이터 capstone.my_trip_info:~3 rows (대략적) 내보내기
 DELETE FROM `my_trip_info`;
 INSERT INTO `my_trip_info` (`id`, `user_id`, `name`, `type`, `start_date`, `end_date`, `country`) VALUES
-	(1, 7, '내 여행 1', 1, '2025-04-12', '2025-04-19', 'singapore'),
-	(2, 7, '내 여행 2', 1, '2025-06-12', '2025-07-12', 'germany,france,italy'),
+	(1, 7, '내 여행 1', 1, '2025-05-22', '2025-05-24', 'korea'),
+	(2, 7, '내 여행 2', 1, '2025-06-12', '2025-07-12', 'france'),
 	(3, 7, '내AA여행12345', 1, '2025-05-12', '2025-05-15', 'japan');
+
+-- 테이블 capstone.my_trip_place_info 구조 내보내기
+DROP TABLE IF EXISTS `my_trip_place_info`;
+CREATE TABLE IF NOT EXISTS `my_trip_place_info` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `trip_id` int NOT NULL COMMENT '내여행 ID',
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '이름',
+  `place` varchar(200) COLLATE utf8mb4_bin NOT NULL COMMENT '장소',
+  `reg_date` date NOT NULL DEFAULT (now()) COMMENT '날짜',
+  PRIMARY KEY (`id`),
+  KEY `FK_my_trip_place_info_my_trip_info` (`trip_id`),
+  CONSTRAINT `FK_my_trip_place_info_my_trip_info` FOREIGN KEY (`trip_id`) REFERENCES `my_trip_info` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='내 여행 장소 정보';
+
+-- 테이블 데이터 capstone.my_trip_place_info:~3 rows (대략적) 내보내기
+DELETE FROM `my_trip_place_info`;
+INSERT INTO `my_trip_place_info` (`id`, `trip_id`, `name`, `place`, `reg_date`) VALUES
+	(1, 1, '서울구경', 'seoul', '2025-05-22'),
+	(2, 1, '인천구경', 'incheon', '2025-05-23'),
+	(3, 1, '테스트', 'test', '2025-05-24');
 
 -- 테이블 capstone.package_info 구조 내보내기
 DROP TABLE IF EXISTS `package_info`;
@@ -102,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `package_info` (
   CONSTRAINT `FK_package_info_search_filter_list` FOREIGN KEY (`type`) REFERENCES `search_filter_list` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='패키지 정보';
 
--- 테이블 데이터 capstone.package_info:~9 rows (대략적) 내보내기
+-- 테이블 데이터 capstone.package_info:~10 rows (대략적) 내보내기
 DELETE FROM `package_info`;
 INSERT INTO `package_info` (`id`, `name`, `type`, `price`, `start_date`, `end_date`, `country`, `image`) VALUES
 	(1, '싱가포르 여행 재밌게 즐기자!', 1, 500000, '2025-04-12', '2025-04-19', 'singapore', 'http://tkfile.yes24.com/Upload2/Display/202505/20250508/wel_mv_53433.jpg/dims/quality/70/'),
@@ -163,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='유저 정보';
 
--- 테이블 데이터 capstone.user_info:~1 rows (대략적) 내보내기
+-- 테이블 데이터 capstone.user_info:~0 rows (대략적) 내보내기
 DELETE FROM `user_info`;
 INSERT INTO `user_info` (`id`, `name`, `password`, `image`, `birthday`) VALUES
 	(7, 'test', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '', '2025-05-19');
@@ -183,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `user_review` (
   CONSTRAINT `FK__user_info` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='유저 리뷰 정보';
 
--- 테이블 데이터 capstone.user_review:~4 rows (대략적) 내보내기
+-- 테이블 데이터 capstone.user_review:~0 rows (대략적) 내보내기
 DELETE FROM `user_review`;
 INSERT INTO `user_review` (`id`, `user_id`, `target_id`, `rate`, `comment`, `type`) VALUES
 	(1, 7, 1, 48, '바다가 이뻐요', 'package'),

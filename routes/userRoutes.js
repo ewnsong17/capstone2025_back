@@ -12,9 +12,10 @@ router.post('/reviewList', (req, res) => userController.getReviews(req, res));
 router.post('/reviewAdd', (req, res) => userController.addReview(req, res));
 router.post('/reviewRemove', (req, res) => userController.removeReview(req, res));
 
-router.post('/favoriteList', (req, res) => userController.getFavorites(req, res));
-router.post('/favoriteAdd', (req, res) => userController.addFavorite(req, res));
-router.post('/favoriteRemove', (req, res) => userController.remoiveFavorite(req, res));
+router.post('/myTripList', (req, res) => userController.getMyTrips(req, res));
+router.post('/myTripAdd', (req, res) => userController.addMyTrip(req, res));
+router.post('/myTripAddPlace', (req, res) => userController.addMyTripPlace(req, res));
+router.post('/myTripRemove', (req, res) => userController.removeMyTrip(req, res));
 
 
 module.exports = router;

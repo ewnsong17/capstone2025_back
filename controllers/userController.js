@@ -127,12 +127,12 @@ class UserController {
    * @param {*} req 
    * @param {*} res 
    */
-  async getFavorites(req, res) {
+  async getMyTrips(req, res) {
     try {
       const user = req.session.user;
       if (user != null) {
-        const favorite_list = await userService.getFavoriteList(user.id); // 서비스에서 데이터를 가져옴
-        res.status(200).json({result: true, favorite_list: favorite_list});
+        const trip_list = await userService.getMyTripList(user.id); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: true, trip_list: trip_list});
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');
       }
@@ -146,12 +146,32 @@ class UserController {
    * @param {*} req 
    * @param {*} res 
    */
-  async addFavorite(req, res) {
+  async addMyTrip(req, res) {
     try {
       const user = req.session.user;
       const { name, type, start_date, end_date, country } = req.body;
       if (user != null && name != null && start_date != null && end_date != null && country != null) {
-        const result = await userService.addFavorite(user.id, name, type, start_date, end_date, country); // 서비스에서 데이터를 가져옴
+        const result = await userService.addMyTrip(user.id, name, type, start_date, end_date, country); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: result});
+      } else {
+        throw new Error('로그인 정보가 존재하지 않습니다.');
+      }
+    } catch (error) {
+      res.status(500).json({result: false, exception: error.message});
+    }
+  }
+  
+  /**
+   * 내 여행 도시 추가
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async addMyTripPlace(req, res) {
+    try {
+      const user = req.session.user;
+      const { id, place, reg_date } = req.body;
+      if (user != null && id != null && place != null && reg_date != null) {
+        const result = await userService.addMyTripPlace(id, place, reg_date); // 서비스에서 데이터를 가져옴
         res.status(200).json({result: result});
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');
@@ -166,12 +186,12 @@ class UserController {
    * @param {*} req 
    * @param {*} res 
    */
-  async remoiveFavorite(req, res) {
+  async removeMyTrip(req, res) {
     try {
       const user = req.session.user;
       const { id } = req.body;
       if (user != null && id != null) {
-        const result = await userService.removeFavorite(id, user.id); // 서비스에서 데이터를 가져옴
+        const result = await userService.removeMyTrip(id, user.id); // 서비스에서 데이터를 가져옴
         res.status(200).json({result: result});
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');

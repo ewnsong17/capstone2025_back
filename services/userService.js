@@ -3,6 +3,7 @@ const db = require('../utils/db'); // DB 연결
 const User = require('../structs/user');
 const Review = require('../structs/review');
 const MyTrip = require('../structs/trip');
+const Place = require('../structs/place');
 const crypto = require('crypto');
 
 class UserService {
@@ -135,17 +136,26 @@ class UserService {
    * @param {*} user_id 
    * @returns 
    */
-  async getFavoriteList(user_id) {
+  async getMyTripList(user_id) {
     try {
-      const results = await db.query("SELECT * FROM `my_trip_info` WHERE `user_id` = ?", [user_id]); // 데이터 조회
+      const results = await db.query("SELECT tr.id AS tid, tr.name AS tname, tr.type, tr.start_date, tr.end_date, tr.country, pl.id AS pid, pl.name AS pname, pl.place, pl.reg_date\
+         FROM `my_trip_info` tr LEFT JOIN my_trip_place_info pl ON (tr.id = pl.trip_id) WHERE `user_id` = ?", [user_id]); // 데이터 조회
 
-      const favorite_list = [];
+      const trip_list = {};
 
       for (var result of results) {
-        favorite_list[result.id] = (new MyTrip(result.name, result.type, result.price, result.start_date, result.end_date, result.country));
+        // 없으면 트립 부터 추가
+        if (trip_list[result.tid] === undefined) {
+          trip_list[result.tid] = (new MyTrip(result.tname, result.type, result.price, result.start_date, result.end_date, result.country));
+          trip_list[result.tid]['place_list'] = {};
+        }
+
+        if (result.pid != null) {
+          trip_list[result.tid]['place_list'][result.pid] = new Place(result.pname, result.place, result.reg_date);
+        }
       }
 
-      return favorite_list;
+      return trip_list;
     } catch (err) {
       console.error(err);
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
@@ -153,7 +163,7 @@ class UserService {
   }
 
   /**
-   * 리뷰 추가
+   * 내 여행 추가
    * @param {*} user_id 
    * @param {*} name 
    * @param {*} start_date 
@@ -161,7 +171,7 @@ class UserService {
    * @param {*} country 
    * @returns 
    */
-  async addFavorite(user_id, name, type, start_date, end_date, country) {
+  async addMyTrip(user_id, name, type, start_date, end_date, country) {
     try {
       const results = await db.query("INSERT INTO `my_trip_info` (`id`, `user_id`, `name`, `type`, `start_date`, `end_date`, `country`) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)",
          [user_id, name, type, start_date, end_date, country]); // 데이터 조회
@@ -175,12 +185,33 @@ class UserService {
   }
 
   /**
-   * 리뷰 삭제
+   * 내 여행 도시 추가
+   * @param {*} id 
+   * @param {*} name 
+   * @param {*} place 
+   * @param {*} reg_date 
+   * @returns 
+   */
+  async addMyTripPlace(id, name, place, reg_date) {
+    try {
+      const results = await db.query("INSERT INTO `my_trip_place_info` (`id`, `trip_id`, `name`, `place`, `reg_date`) VALUES (DEFAULT, ?, ?, ?, ?)",
+         [id, name, place, reg_date]); // 데이터 조회
+      return  results != null;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
+    } finally {
+      return false;
+    }
+  }
+
+  /**
+   * 내 여행 삭제
    * @param {*} id 
    * @param {*} user_id 
    * @returns 
    */
-  async removeFavorite(id, user_id) {
+  async removeMyTrip(id, user_id) {
     try {
       const results = await db.query("DELETE FROM `my_trip_info` WHERE `id` = ? AND `user_id` = ?", [id, user_id]); // 데이터 조회
 
