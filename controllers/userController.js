@@ -63,15 +63,16 @@ class UserController {
   }
   
   /**
-   * 유저 리뷰 처리
+   * 유저 리뷰 리스트
    * @param {*} req 
    * @param {*} res 
    */
   async getReviews(req, res) {
     try {
       const user = req.session.user;
-      if (user != null) {
-        const review_list = await userService.getReviewList(user.id); // 서비스에서 데이터를 가져옴
+      const { state } = req.body;
+      if (user != null && state != null) {
+        const review_list = await userService.getReviewList(user.id, state); // 서비스에서 데이터를 가져옴
         res.status(200).json({result: true, review_list: review_list});
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');
@@ -120,18 +121,57 @@ class UserController {
       res.status(500).json({result: false, exception: error.message});
     }
   }
-
+  
   /**
-   * 유저 저장 처리
+   * 내 여행 리스트
    * @param {*} req 
    * @param {*} res 
    */
-  async getFavorite(req, res) {
+  async getFavorites(req, res) {
     try {
-      const { pkg_id } = req.body;
       const user = req.session.user;
       if (user != null) {
-        const result = await userService.addFavorite(user.id, pkg_id); // 서비스에서 데이터를 가져옴
+        const favorite_list = await userService.getFavoriteList(user.id); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: true, favorite_list: favorite_list});
+      } else {
+        throw new Error('로그인 정보가 존재하지 않습니다.');
+      }
+    } catch (error) {
+      res.status(500).json({result: false, exception: error.message});
+    }
+  }
+  
+  /**
+   * 내 여행 추가
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async addFavorite(req, res) {
+    try {
+      const user = req.session.user;
+      const { name, type, start_date, end_date, country } = req.body;
+      if (user != null && name != null && start_date != null && end_date != null && country != null) {
+        const result = await userService.addFavorite(user.id, name, type, start_date, end_date, country); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: result});
+      } else {
+        throw new Error('로그인 정보가 존재하지 않습니다.');
+      }
+    } catch (error) {
+      res.status(500).json({result: false, exception: error.message});
+    }
+  }
+  
+  /**
+   * 내 여행 삭제
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async remoiveFavorite(req, res) {
+    try {
+      const user = req.session.user;
+      const { id } = req.body;
+      if (user != null && id != null) {
+        const result = await userService.removeFavorite(id, user.id); // 서비스에서 데이터를 가져옴
         res.status(200).json({result: result});
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');

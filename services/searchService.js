@@ -37,7 +37,7 @@ class SearchService {
    */
   async getPackageList(type, min_price, max_price) {
     try {
-      const results = await db.query("SELECT * FROM package_info WHERE `type` = ? AND `price` >= ? AND `price` <= ? ORDER BY `id` DESC", [type, min_price, max_price]); // 데이터 조회
+      const results = await db.query("SELECT * FROM `package_info` WHERE `type` = ? AND `price` >= ? AND `price` <= ? ORDER BY `id` DESC", [type, min_price, max_price]); // 데이터 조회
 
       const package_list = [];
 
