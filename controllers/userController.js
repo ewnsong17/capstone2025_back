@@ -13,7 +13,7 @@ class UserController {
     try {
       const { id, pwd, image, birthday } = req.body;
       console.log(id, pwd, image, birthday);
-      if (id == null || pwd == null || image == null || birthday == null) {
+      if (id == null || pwd == null) {
         throw new Error('올바르지 않은 ID 또는 PWD 입니다.');
       }
       const result = await userService.getSignUp(id, pwd, image, birthday);

@@ -20,6 +20,9 @@ class AI {
       } else {
         text = `${start_date}부터 ${end_date}까지 ${city}로 여행 갈건데, 날짜 별 여행지 3개씩 추천해줘. 마지막 날은 2개만 추천해줘.`;
       }
+
+      text += ' 여행지 별 설명은 1줄정도로 해주고, 추가 요청은 안받아도 돼.';
+
       const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${this.ai.apiKey}`;
       const response = await fetch(GEMINI_API_URL, {
         method: 'POST',
