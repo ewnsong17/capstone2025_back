@@ -19,11 +19,10 @@ const upload = multer();
 const cors = require('cors');
 
 const app = express();
-const port = config.server.port;
 app.use(express.json());
 app.use(cors());
 
-console.info(`express 모듈로 ${port} 포트 서버 오픈을 시작합니다.`);
+console.info(`express 모듈로 ${config.server.ip}:${config.server.port} 포트 서버 오픈을 시작합니다.`);
 
 // middle-ware
 app.use((req, res, next) => {
@@ -54,6 +53,6 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {
-  console.info(`서버가 ${port} 포트로 연결되었습니다.`);
+app.listen(config.server.port, config.server.ip, () => {
+  console.info(`서버가 ${config.server.ip}:${config.server.port} 포트로 연결되었습니다.`);
 });
