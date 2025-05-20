@@ -84,6 +84,45 @@ class UserService {
   }
 
   /**
+   * 리뷰 추가
+   * @param {*} user_id 
+   * @param {*} pkg_id 
+   * @param {*} rate 
+   * @param {*} comment 
+   * @returns 
+   */
+  async addReview(user_id, pkg_id, rate, comment) {
+    try {
+      const results = await db.query("INSERT INTO `user_review` (`id`, `user_id`, `package_id`, `rate`, `comment`)", [id, user_id, pkg_id, rate, comment]); // 데이터 조회
+      return results != null;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
+    } finally {
+      return false;
+    }
+  }
+
+  /**
+   * 리뷰 삭제
+   * @param {*} id 
+   * @param {*} user_id 
+   * @returns 
+   */
+  async removeReview(id, user_id) {
+    try {
+      const results = await db.query("DELETE FROM `user_review` WHERE `id` = ? AND `user_id` = ?", [id, user_id]); // 데이터 조회
+
+      return results != null;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
+    } finally {
+      return false;
+    }
+  }
+
+  /**
    * 유저 찜 추가 / 삭제 하기
    * @param {*} user_id 
    * @param {*} pkg_id 
