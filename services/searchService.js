@@ -57,11 +57,12 @@ class SearchService {
    * @param {*} start_date 
    * @param {*} end_date 
    * @param {*} city 
+   * @Param {*} taste
    * @returns 
    */
-  async getAskAI(start_date, end_date, city) {
+  async getAskAI(start_date, end_date, city, taste) {
     try {
-      return await ai.runPrompt(start_date, end_date, city);
+      return await ai.runPrompt(start_date, end_date, city, taste);
     } catch (err) {
       console.error(err);
       throw new Error(err);

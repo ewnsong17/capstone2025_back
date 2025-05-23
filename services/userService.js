@@ -10,51 +10,56 @@ class UserService {
 
   /**
    * 유저 회원가입 DB INSERT 처리
+   * @param {*} email 
+   * @param {*} password 
    * @param {*} name 
-   * @param {*} pwd 
-   * @param {*} image 
    * @param {*} birthday 
    * @returns 
    */
-  async getSignUp(name, pwd, image, birthday) {
+  async getSignUp(email, password, birthday, name) {
     try {
+      // 중복 체크: email 기준
       const duplicateChk = await db.query(
-        'SELECT COUNT(*) cnt FROM `user_info` WHERE `name` = ?', [name]);
-      
+        'SELECT COUNT(*) cnt FROM `user_info` WHERE `email` = ?', [email]);
+
       if (duplicateChk.length && duplicateChk[0]['cnt']) {
-        throw new Error('이미 존재하는 ID입니다.');
+        throw new Error('이미 존재하는 이메일입니다.');
       }
 
-      const hass_pwd = crypto.createHash('sha256').update(pwd).digest('hex');
+      // 비밀번호 해시 처리
+      const hass_password = crypto.createHash('sha256').update(password).digest('hex');
 
+      // 데이터 삽입: email, password, birthday, name 컬럼
       const results = await db.query(
-        'INSERT INTO `user_info` (`name`, `password`, `image`, `birthday`) VALUES (?, ?, ?, ?)', [name, hass_pwd, image, birthday]); // 데이터 조회
+        'INSERT INTO `user_info` (`email`, `password`, `birthday`, `name`) VALUES (?, ?, ?, ?)',
+        [email, hass_password, birthday, name]
+      );
       return results.insertId > 0;
     } catch (err) {
       console.error('쿼리 실행 실패:', err);
       throw new Error(err.message);
     }
   }
-  
+
   /**
    * 유저 로그인 SELECT 처리
-   * @param {*} name 
-   * @param {*} pwd 
+   * @param {*} email 
+   * @param {*} password 
    * @returns 
    */
-  async getLogin(name, pwd) {
+  async getLogin(email, password) {
     try {
       const results = await db.query(
-        'SELECT * FROM `user_info` WHERE `name` = ?', [name]); // 데이터 조회
+        'SELECT * FROM `user_info` WHERE `email` = ?', [email]);
 
-      const hass_pwd = crypto.createHash('sha256').update(pwd).digest('hex');
+      const hass_password = crypto.createHash('sha256').update(password).digest('hex');
 
       for (var result of results) {
-        if (result.password == hass_pwd) {
-          return new User(result.id, result.name, result.image, result.birthday);
+        if (result.password === hass_password) {
+          // User 구조체가 email, birthday, name 등을 받도록 수정 필요할 수 있음
+          return new User(result.email, result.birthday, result.name);
         }
       }
-
       return null;
     } catch (err) {
       console.error(err);
@@ -82,7 +87,7 @@ class UserService {
       const review_list = [];
 
       for (var result of results) {
-        review_list[result.id] = (new Review(result.id, result.package_id, result.price, result.start_date, result.end_date, result.country, result.rate, result.comment));
+        review_list[result.id] = (new Review(result.id, result.package_id, result.name, result.price, result.start_date, result.end_date, result.country, result.rate, result.comment));
       }
 
       return review_list;
@@ -107,8 +112,6 @@ class UserService {
     } catch (err) {
       console.error(err);
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
-    } finally {
-      return false;
     }
   }
 
@@ -126,8 +129,6 @@ class UserService {
     } catch (err) {
       console.error(err);
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
-    } finally {
-      return false;
     }
   }
 
@@ -174,13 +175,11 @@ class UserService {
   async addMyTrip(user_id, name, type, start_date, end_date, country) {
     try {
       const results = await db.query("INSERT INTO `my_trip_info` (`id`, `user_id`, `name`, `type`, `start_date`, `end_date`, `country`) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)",
-         [user_id, name, type, start_date, end_date, country]); // 데이터 조회
+        [user_id, name, type, start_date, end_date, country]); // 데이터 조회
       return results != null;
     } catch (err) {
       console.error(err);
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
-    } finally {
-      return false;
     }
   }
 
@@ -195,13 +194,11 @@ class UserService {
   async addMyTripPlace(id, name, place, reg_date) {
     try {
       const results = await db.query("INSERT INTO `my_trip_place_info` (`id`, `trip_id`, `name`, `place`, `reg_date`) VALUES (DEFAULT, ?, ?, ?, ?)",
-         [id, name, place, reg_date]); // 데이터 조회
-      return  results != null;
+        [id, name, place, reg_date]); // 데이터 조회
+      return results != null;
     } catch (err) {
       console.error(err);
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
-    } finally {
-      return false;
     }
   }
 
@@ -219,8 +216,6 @@ class UserService {
     } catch (err) {
       console.error(err);
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
-    } finally {
-      return false;
     }
   }
 }

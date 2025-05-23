@@ -17,5 +17,4 @@ router.post('/myTripAdd', (req, res) => userController.addMyTrip(req, res));
 router.post('/myTripAddPlace', (req, res) => userController.addMyTripPlace(req, res));
 router.post('/myTripRemove', (req, res) => userController.removeMyTrip(req, res));
 
-
 module.exports = router;

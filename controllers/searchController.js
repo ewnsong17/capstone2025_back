@@ -30,9 +30,9 @@ class SearchController {
 
   async getAskAI(req, res) {
     try {
-      const { start_date, end_date, city } = req.body;
+      const { start_date, end_date, city, taste } = req.body;
       if (start_date != null && end_date != null && city != null) {
-        const answer = await searchService.getAskAI(start_date, end_date, city); // 서비스에서 데이터를 가져옴
+        const answer = await searchService.getAskAI(start_date, end_date, city, taste || ''); // 서비스에서 데이터를 가져옴
         res.status(200).json({result: true, answer: answer});
       } else {
         throw new Error('올바른 질문 형식이 아닙니다.');

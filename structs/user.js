@@ -1,15 +1,13 @@
 class User {
-    constructor(id, name, image, birthday) {
-        this.id = id;
+    constructor(name, email, birthday) {
         this.name = name;
-        this.image = image;
+        this.email = email;
         this.birthday = birthday;
     }
 
     toString() {
-        return `ID: ${this.id} NAME: ${this.name} IMAGE: ${this.image} BIRTHDAY: ${this.birthday}`;
+        return `NAME: ${this.name} EMAIL: ${this.email} BIRTHDAY: ${this.birthday}`;
     }
 }
-
 
 module.exports = User;
