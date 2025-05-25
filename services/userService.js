@@ -1,4 +1,4 @@
-// services/mainService.js
+// services/userService.js
 const db = require('../utils/db'); // DB 연결
 const User = require('../structs/user');
 const Review = require('../structs/review');
