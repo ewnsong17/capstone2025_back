@@ -1,7 +1,7 @@
 // config.js
 const config = {
     server: {
-      ip: '192.168.219.106',
+      ip: '192.168.38.126',
 			port: 3000,
     },
     db: {
