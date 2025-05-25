@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `password` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `image` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `image` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `birthday` date NOT NULL DEFAULT (now()),
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`) USING BTREE,
