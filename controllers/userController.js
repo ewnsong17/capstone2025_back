@@ -105,6 +105,26 @@ class UserController {
   }
 
   /**
+   * 유저 리뷰 수정
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async modifyReview(req, res) {
+    try {
+      const user = req.session.user;
+      const { id, comment } = req.body;
+      if (user != null && id != null && comment != null) {
+        const result = await userService.modifyReview(user.id, id, comment); // 서비스에서 데이터를 가져옴
+        res.status(200).json({ result: result });
+      } else {
+        throw new Error('로그인 정보가 존재하지 않습니다.');
+      }
+    } catch (error) {
+      res.status(500).json({ result: false, exception: error.message });
+    }
+  }
+
+  /**
    * 유저 리뷰 삭제
    * @param {*} req 
    * @param {*} res 

@@ -10,6 +10,7 @@ router.post('/logout', (req, res) => userController.getLogout(req, res));
 
 router.post('/reviewList', (req, res) => userController.getReviews(req, res));
 router.post('/reviewAdd', (req, res) => userController.addReview(req, res));
+router.post('/reviewModify', (req, res) => userController.modifyReview(req, res));
 router.post('/reviewRemove', (req, res) => userController.removeReview(req, res));
 
 router.post('/myTripList', (req, res) => userController.getMyTrips(req, res));

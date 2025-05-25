@@ -116,6 +116,23 @@ class UserService {
   }
 
   /**
+   * 리뷰 수정
+   * @param {*} user_id 
+   * @param {*} id 
+   * @param {*} comment 
+   * @returns 
+   */
+  async modifyReview(user_id, id, comment) {
+    try {
+      const results = await db.query("UPDATE `user_review` SET `comment` = ? WHERE `id` = ? AND `user_id` = ?", [comment, id, user_id]); // 데이터 조회
+      return results != null;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
+    }
+  }
+
+  /**
    * 리뷰 삭제
    * @param {*} id 
    * @param {*} user_id 
