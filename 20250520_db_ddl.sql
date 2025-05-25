@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        8.0.41 - MySQL Community Server - GPL
+-- 서버 버전:                        8.0.42 - MySQL Community Server - GPL
 -- 서버 OS:                        Win64
 -- HeidiSQL 버전:                  12.10.0.7000
 -- --------------------------------------------------------
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `my_trip_place_info` (
   `id` int NOT NULL AUTO_INCREMENT,
   `trip_id` int NOT NULL COMMENT '내여행 ID',
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '이름',
-  `place` varchar(200) COLLATE utf8mb4_bin NOT NULL COMMENT '장소',
+  `place` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '장소',
   `reg_date` date NOT NULL DEFAULT (now()) COMMENT '날짜',
   PRIMARY KEY (`id`),
   KEY `FK_my_trip_place_info_my_trip_info` (`trip_id`),
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `package_info` (
   CONSTRAINT `FK_package_info_search_filter_list` FOREIGN KEY (`type`) REFERENCES `search_filter_list` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='패키지 정보';
 
--- 테이블 데이터 capstone.package_info:~10 rows (대략적) 내보내기
+-- 테이블 데이터 capstone.package_info:~9 rows (대략적) 내보내기
 DELETE FROM `package_info`;
 INSERT INTO `package_info` (`id`, `name`, `type`, `price`, `start_date`, `end_date`, `country`, `image`) VALUES
 	(1, '싱가포르 여행 재밌게 즐기자!', 1, 500000, '2025-04-12', '2025-04-19', 'singapore', 'http://tkfile.yes24.com/Upload2/Display/202505/20250508/wel_mv_53433.jpg/dims/quality/70/'),
@@ -175,18 +175,20 @@ INSERT INTO `search_filter_list` (`id`, `type`) VALUES
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE IF NOT EXISTS `user_info` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `password` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `image` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `birthday` date NOT NULL DEFAULT (now()),
   PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`) USING BTREE,
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='유저 정보';
 
 -- 테이블 데이터 capstone.user_info:~0 rows (대략적) 내보내기
 DELETE FROM `user_info`;
-INSERT INTO `user_info` (`id`, `name`, `password`, `image`, `birthday`) VALUES
-	(7, 'test', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '', '2025-05-19');
+INSERT INTO `user_info` (`id`, `email`, `name`, `password`, `image`, `birthday`) VALUES
+	(7, 'test', '', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '', '2025-05-19');
 
 -- 테이블 capstone.user_review 구조 내보내기
 DROP TABLE IF EXISTS `user_review`;
@@ -196,14 +198,14 @@ CREATE TABLE IF NOT EXISTS `user_review` (
   `target_id` int NOT NULL,
   `rate` int NOT NULL,
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `type` enum('mine','package') COLLATE utf8mb4_bin NOT NULL,
+  `type` enum('mine','package') CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK__user_info` (`user_id`),
   KEY `FK_user_review_package_info` (`target_id`) USING BTREE,
   CONSTRAINT `FK__user_info` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='유저 리뷰 정보';
 
--- 테이블 데이터 capstone.user_review:~0 rows (대략적) 내보내기
+-- 테이블 데이터 capstone.user_review:~4 rows (대략적) 내보내기
 DELETE FROM `user_review`;
 INSERT INTO `user_review` (`id`, `user_id`, `target_id`, `rate`, `comment`, `type`) VALUES
 	(1, 7, 1, 48, '바다가 이뻐요', 'package'),
