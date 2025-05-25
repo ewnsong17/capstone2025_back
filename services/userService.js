@@ -1,4 +1,4 @@
-// services/userService.js
+// services/mainService.js
 const db = require('../utils/db'); // DB 연결
 const User = require('../structs/user');
 const Review = require('../structs/review');
@@ -57,7 +57,7 @@ class UserService {
       for (var result of results) {
         if (result.password === hass_password) {
           // User 구조체가 email, birthday, name 등을 받도록 수정 필요할 수 있음
-          return new User(result.id, result.email, result.birthday, result.name);
+          return new User(result.id, result.name, result.email, result.birthday);
         }
       }
       return null;
@@ -70,19 +70,12 @@ class UserService {
   /**
    * 유저 리뷰 리스트 가져오기
    * @param {*} user_id 
-   * @param {*} state 
    * @returns 
    */
-  async getReviewList(user_id, state) {
+  async getReviewList(user_id) {
     try {
-      results = [];
-      if (state == 'mine') {
-        results = await db.query("SELECT re.id, inf.id as `package_id`, inf.name, '-1' as price, inf.start_date, inf.end_date,\
+      var results = await db.query("SELECT re.id, inf.id as `package_id`, inf.name, '-1' as price, inf.start_date, inf.end_date,\
           inf.country, re.rate, re.comment FROM `user_review` re INNER JOIN `my_trip_info` inf ON (re.id = inf.id) WHERE inf.`user_id` = ?", [user_id]); // 데이터 조회
-      } else {
-        results = await db.query("SELECT re.id, inf.id as `package_id`, inf.name, inf.price, inf.start_date, inf.end_date,\
-         inf.country, re.rate, re.comment FROM `user_review` re INNER JOIN `package_info` inf ON (re.id = inf.id) WHERE `user_id` = ?", [user_id]); // 데이터 조회
-      }
 
       const review_list = [];
 
@@ -114,8 +107,33 @@ class UserService {
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
     }
   }
+    async getMyTripList(user_id) {
+    try {
+      const results = await db.query("SELECT tr.id AS tid, tr.name AS tname, tr.type, tr.start_date, tr.end_date, tr.country, pl.id AS pid, pl.name AS pname, pl.place, pl.reg_date\
+         FROM `my_trip_info` tr LEFT JOIN my_trip_place_info pl ON (tr.id = pl.trip_id) WHERE `user_id` = ?", [user_id]); // 데이터 조회
 
-  /**
+      const trip_list = {};
+
+      for (var result of results) {
+        // 없으면 트립 부터 추가
+        if (trip_list[result.tid] === undefined) {
+          trip_list[result.tid] = (new MyTrip(result.tname, result.type, result.price, result.start_date, result.end_date, result.country));
+          trip_list[result.tid]['place_list'] = {};
+        }
+
+        if (result.pid != null) {
+          trip_list[result.tid]['place_list'][result.pid] = new Place(result.pname, result.place, result.reg_date);
+        }
+      }
+
+      return trip_list;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
+    }
+  }
+
+    /**
    * 리뷰 수정
    * @param {*} user_id 
    * @param {*} id 
@@ -131,6 +149,7 @@ class UserService {
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
     }
   }
+
 
   /**
    * 리뷰 삭제
@@ -199,6 +218,7 @@ class UserService {
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
     }
   }
+
 
   /**
    * 내 여행 도시 추가
