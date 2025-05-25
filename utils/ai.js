@@ -16,12 +16,12 @@ class AI {
     try {
       let text = '';
       if (start_date == end_date) {
-        text = `${start_date}에 ${city}로 여행 갈건데, 여행지 3개 추천해줘. 나는 ${taste} 여행을 원해.`;
+        text = `${start_date}에 ${city}로 여행 갈건데, 여행지 3개 추천해줘.`;
       } else {
-        text = `${start_date}부터 ${end_date}까지 ${city}로 여행 갈건데, 날짜 별 여행지 3개씩 추천해줘. 마지막 날은 2개만 추천해줘. 나는 ${taste} 여행을 원해.`;
+        text = `${start_date}부터 ${end_date}까지 ${city}로 여행 갈건데, 날짜 별 여행지 3개씩 추천해줘. 마지막 날은 2개만 추천해줘.`;
       }
 
-      text += ' 여행지 별 설명은 1줄정도로 해주고, 추가 요청은 안받아도 돼.';
+      text += `${taste} 와 관련된 여행을 원해. 여행지 별 설명은 1줄정도로 해주고, 추가 요청은 안받아도 돼.`;
 
       const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-preview-03-25:generateContent?key=${this.ai.apiKey}`;
       const response = await fetch(GEMINI_API_URL, {
