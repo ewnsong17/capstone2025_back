@@ -57,7 +57,7 @@ class UserService {
       for (var result of results) {
         if (result.password === hass_password) {
           // User 구조체가 email, birthday, name 등을 받도록 수정 필요할 수 있음
-          return new User(result.email, result.birthday, result.name);
+          return new User(result.id, result.email, result.birthday, result.name);
         }
       }
       return null;
