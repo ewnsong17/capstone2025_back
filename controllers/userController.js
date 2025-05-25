@@ -202,6 +202,26 @@ class UserController {
       res.status(500).json({ result: false, exception: error.message });
     }
   }
+
+  /**
+   * 내 여행 도시 삭제
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async removeMyTripPlace(req, res) {
+    try {
+      const user = req.session.user;
+      const { id } = req.body;
+      if (user != null && id != null) {
+        const result = await userService.removeMyTripPlace(id); // 서비스에서 데이터를 가져옴
+        res.status(200).json({ result: result });
+      } else {
+        throw new Error('로그인 정보가 존재하지 않습니다.');
+      }
+    } catch (error) {
+      res.status(500).json({ result: false, exception: error.message });
+    }
+  }
 }
 
 module.exports = new UserController();

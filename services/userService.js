@@ -218,6 +218,22 @@ class UserService {
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
     }
   }
+
+  /**
+   * 내 여행 도시 삭제
+   * @param {*} id 
+   * @returns 
+   */
+  async removeMyTripPlace(id) {
+    try {
+      const results = await db.query("DELETE FROM `my_trip_place_info` WHERE `id` = ?",
+        [id]); // 데이터 조회
+      return results != null;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
+    }
+  }
 }
 
 module.exports = new UserService();
