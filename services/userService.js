@@ -77,7 +77,7 @@ class UserService {
       var results = await db.query("SELECT re.id, inf.id as `package_id`, inf.name, '-1' as price, inf.start_date, inf.end_date,\
           inf.country, re.rate, re.comment FROM `user_review` re INNER JOIN `my_trip_info` inf ON (re.id = inf.id) WHERE inf.`user_id` = ?", [user_id]); // 데이터 조회
 
-      const review_list = [];
+      const review_list = {};
 
       for (var result of results) {
         review_list[result.id] = (new Review(result.id, result.package_id, result.name, result.price, result.start_date, result.end_date, result.country, result.rate, result.comment));
