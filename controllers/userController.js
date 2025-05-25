@@ -72,9 +72,8 @@ class UserController {
   async getReviews(req, res) {
     try {
       const user = req.session.user;
-      const { state } = req.body;
-      if (user != null && state != null) {
-        const review_list = await userService.getReviewList(user.email, state); // 서비스에서 데이터를 가져옴
+      if (user != null) {
+        const review_list = await userService.getReviewList(user.id); // 서비스에서 데이터를 가져옴
         res.status(200).json({ result: true, review_list: review_list });
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');
@@ -95,26 +94,6 @@ class UserController {
       const { pkg_id, rate, comment } = req.body;
       if (user != null && pkg_id != null && rate != null && comment != null) {
         const result = await userService.addReview(user.id, pkg_id, rate, comment); // 서비스에서 데이터를 가져옴
-        res.status(200).json({ result: result });
-      } else {
-        throw new Error('로그인 정보가 존재하지 않습니다.');
-      }
-    } catch (error) {
-      res.status(500).json({ result: false, exception: error.message });
-    }
-  }
-
-  /**
-   * 유저 리뷰 수정
-   * @param {*} req 
-   * @param {*} res 
-   */
-  async modifyReview(req, res) {
-    try {
-      const user = req.session.user;
-      const { id, comment } = req.body;
-      if (user != null && id != null && comment != null) {
-        const result = await userService.modifyReview(user.id, id, comment); // 서비스에서 데이터를 가져옴
         res.status(200).json({ result: result });
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');
