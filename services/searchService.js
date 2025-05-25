@@ -42,7 +42,7 @@ class SearchService {
       const package_list = [];
 
       for (var result of results) {
-        package_list.push(new Package(result.id, result.name, result.type, result.price, result.start_date, result.end_date, result.country, result.image));
+        package_list.push(new Package(result.id, result.name, result.type, result.price, result.start_date, result.end_date, result.country, result.image, result.url));
       }
 
       return package_list;

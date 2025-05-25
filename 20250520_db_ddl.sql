@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `package_info` (
   `end_date` date NOT NULL,
   `country` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `image` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `url` varchar(300) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `FK_package_info_search_filter_list` (`type`,`price`) USING BTREE,
   CONSTRAINT `FK_package_info_search_filter_list` FOREIGN KEY (`type`) REFERENCES `search_filter_list` (`id`) ON UPDATE CASCADE
@@ -124,16 +125,16 @@ CREATE TABLE IF NOT EXISTS `package_info` (
 
 -- 테이블 데이터 capstone.package_info:~9 rows (대략적) 내보내기
 DELETE FROM `package_info`;
-INSERT INTO `package_info` (`id`, `name`, `type`, `price`, `start_date`, `end_date`, `country`, `image`) VALUES
-	(1, '싱가포르 여행 재밌게 즐기자!', 1, 500000, '2025-04-12', '2025-04-19', 'singapore', 'http://tkfile.yes24.com/Upload2/Display/202505/20250508/wel_mv_53433.jpg/dims/quality/70/'),
-	(2, '유럽 투어 가자!', 1, 30000, '2025-06-12', '2025-07-12', 'germany,france,italy', 'http://tkfile.yes24.com/upload2/PerfBlog/202503/20250306/20250306-53040.jpg'),
-	(3, '일본 여행 가자!', 1, 100000, '2025-05-12', '2025-05-15', 'japan', 'http://tkfile.yes24.com/upload2/PerfBlog/202504/20250408/20250408-53385.jpg'),
-	(4, '제주도 올렛길 체험', 2, 10, '2025-03-23', '2025-04-01', 'jeju', 'http://tkfile.yes24.com/upload2/PerfBlog/202502/20250204/20250204-52551.jpg'),
-	(5, '춘천 둘러보기', 2, 100, '2025-03-12', '2025-03-13', 'chuncheon', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg'),
-	(6, 'dsf', 2, 1500, '2025-02-12', '2025-03-14', 'fdsa', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg'),
-	(7, 'dsfad', 3, 150, '2025-05-20', '2025-05-25', 'dsa', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg'),
-	(8, 'asd', 3, 206, '2025-07-15', '2025-07-29', 'fasd', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg'),
-	(9, 'sdf', 3, 202352, '2025-08-14', '2025-08-25', 'fdsa', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg');
+INSERT INTO `package_info` (`id`, `name`, `type`, `price`, `start_date`, `end_date`, `country`, `image`, `url`) VALUES
+	(1, '싱가포르 여행 재밌게 즐기자!', 1, 500000, '2025-04-12', '2025-04-19', 'singapore', 'http://tkfile.yes24.com/Upload2/Display/202505/20250508/wel_mv_53433.jpg/dims/quality/70/', 'https://www.naver.com'),
+	(2, '유럽 투어 가자!', 1, 30000, '2025-06-12', '2025-07-12', 'germany,france,italy', 'http://tkfile.yes24.com/upload2/PerfBlog/202503/20250306/20250306-53040.jpg', 'https://www.naver.com'),
+	(3, '일본 여행 가자!', 1, 100000, '2025-05-12', '2025-05-15', 'japan', 'http://tkfile.yes24.com/upload2/PerfBlog/202504/20250408/20250408-53385.jpg', 'https://www.naver.com'),
+	(4, '제주도 올렛길 체험', 2, 10, '2025-03-23', '2025-04-01', 'jeju', 'http://tkfile.yes24.com/upload2/PerfBlog/202502/20250204/20250204-52551.jpg', 'https://www.naver.com'),
+	(5, '춘천 둘러보기', 2, 100, '2025-03-12', '2025-03-13', 'chuncheon', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg', 'https://www.naver.com'),
+	(6, 'dsf', 2, 1500, '2025-02-12', '2025-03-14', 'fdsa', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg', 'https://www.naver.com'),
+	(7, 'dsfad', 3, 150, '2025-05-20', '2025-05-25', 'dsa', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg', 'https://www.naver.com'),
+	(8, 'asd', 3, 206, '2025-07-15', '2025-07-29', 'fasd', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg', 'https://www.naver.com'),
+	(9, 'sdf', 3, 202352, '2025-08-14', '2025-08-25', 'fdsa', 'http://tkfile.yes24.com/upload2/PerfBlog/202505/20250509/20250509-53782.jpg', 'https://www.naver.com');
 
 -- 테이블 capstone.search_city_list 구조 내보내기
 DROP TABLE IF EXISTS `search_city_list`;
@@ -185,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='유저 정보';
 
--- 테이블 데이터 capstone.user_info:~0 rows (대략적) 내보내기
+-- 테이블 데이터 capstone.user_info:~1 rows (대략적) 내보내기
 DELETE FROM `user_info`;
 INSERT INTO `user_info` (`id`, `email`, `name`, `password`, `image`, `birthday`) VALUES
 	(7, 'test', '', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '', '2025-05-19');

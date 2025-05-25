@@ -1,5 +1,5 @@
 class Package {
-    constructor(id, name, type, price, start_date, end_date, country, image) {
+    constructor(id, name, type, price, start_date, end_date, country, image, url) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -8,6 +8,7 @@ class Package {
         this.end_date = end_date;
         this.country = country;
         this.image = image;
+        this.url = url;
     }
 
     toString() {
