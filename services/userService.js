@@ -74,13 +74,12 @@ class UserService {
    */
   async getReviewList(user_id) {
     try {
-      var results = await db.query("SELECT re.id, inf.id as `package_id`, inf.name, '-1' as price, inf.start_date, inf.end_date,\
-          inf.country, re.rate, re.comment FROM `user_review` re INNER JOIN `my_trip_info` inf ON (re.id = inf.id) WHERE inf.`user_id` = ?", [user_id]); // 데이터 조회
+      var results = await db.query("SELECT re.id, inf.id as `place_id`, inf.name, inf.place, inf.reg_date, re.rate, re.comment FROM `user_review` re INNER JOIN `my_trip_info` inf ON (re.id = inf.id) WHERE inf.`user_id` = ?", [user_id]); // 데이터 조회
 
       const review_list = {};
 
       for (var result of results) {
-        review_list[result.id] = (new Review(result.id, result.package_id, result.name, result.price, result.start_date, result.end_date, result.country, result.rate, result.comment));
+        review_list[result.id] = (new Review(result.id, result.place_id, result.name, result.place, result.reg_date, result.rate, result.comment));
       }
 
       return review_list;
@@ -93,21 +92,27 @@ class UserService {
   /**
    * 리뷰 추가
    * @param {*} user_id 
-   * @param {*} pkg_id 
+   * @param {*} id 
    * @param {*} rate 
    * @param {*} comment 
    * @returns 
    */
-  async addReview(user_id, pkg_id, rate, comment) {
+  async addReview(user_id, id, rate, comment) {
     try {
-      const results = await db.query("INSERT INTO `user_review` (`id`, `user_id`, `package_id`, `rate`, `comment`) VALUES (DEFAULT, ?, ?, ?, ?)", [user_id, pkg_id, rate, comment]); // 데이터 조회
+      const results = await db.query("INSERT INTO `user_review` (`id`, `user_id`, `package_id`, `rate`, `comment`) VALUES (DEFAULT, ?, ?, ?, ?)", [user_id, id, rate, comment]); // 데이터 조회
       return results != null;
     } catch (err) {
       console.error(err);
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
     }
   }
-    async getMyTripList(user_id) {
+
+  /**
+   * 내여행 리스트 가져오기
+   * @param {*} user_id 
+   * @returns 
+   */
+  async getMyTripList(user_id) {
     try {
       const results = await db.query("SELECT tr.id AS tid, tr.name AS tname, tr.type, tr.start_date, tr.end_date, tr.country, pl.id AS pid, pl.name AS pname, pl.place, pl.reg_date\
          FROM `my_trip_info` tr LEFT JOIN my_trip_place_info pl ON (tr.id = pl.trip_id) WHERE `user_id` = ?", [user_id]); // 데이터 조회
@@ -133,7 +138,7 @@ class UserService {
     }
   }
 
-    /**
+  /**
    * 리뷰 수정
    * @param {*} user_id 
    * @param {*} id 

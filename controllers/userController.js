@@ -91,9 +91,9 @@ class UserController {
   async addReview(req, res) {
     try {
       const user = req.session.user;
-      const { pkg_id, rate, comment } = req.body;
-      if (user != null && pkg_id != null && rate != null && comment != null) {
-        const result = await userService.addReview(user.id, pkg_id, rate, comment); // 서비스에서 데이터를 가져옴
+      const { id, rate, comment } = req.body;
+      if (user != null && id != null && rate != null && comment != null) {
+        const result = await userService.addReview(user.id, id, rate, comment); // 서비스에서 데이터를 가져옴
         res.status(200).json({ result: result });
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');

@@ -1,12 +1,10 @@
 class Review {
-    constructor(id, package_id, name, price, start_date, end_date, country, rate, comment) {
+    constructor(id, place_id, name, place, reg_date, rate, comment) {
         this.id = id;
-        this.package_id = package_id;
+        this.place_id = place_id;
         this.name = name;
-        this.price = price;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.country = country;
+        this.place = place;
+        this.reg_date = reg_date;
         this.rate = rate;
         this.comment = comment;
     }

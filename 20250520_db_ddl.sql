@@ -34,10 +34,13 @@ CREATE TABLE IF NOT EXISTS `main_image_list` (
 DELETE FROM `main_image_list`;
 INSERT INTO `main_image_list` (`id`, `type`, `image_url`) VALUES
 	(1, 'banner', 'http://tkfile.yes24.com/Upload2/Display/202505/20250508/wel_mv_53433.jpg/dims/quality/70/'),
-	(2, 'banner', 'https://tourimage.interpark.com/product/tour/00161/A60/1000/A6020760_1_470.jpg'),
-	(3, 'package', 'https://tourimage.interpark.com/product/tour/00161/A30/1000/A3019415_1_003.jpg'),
-	(4, 'package', 'https://tourimage.interpark.com/product/tour/00161/A20/1000/A2015584_1_470.jpg'),
-	(5, 'package', 'package_ex_3.png');
+	(2, 'banner', 'http://tkfile.yes24.com/Upload2/Display/202503/20250305/m_mainbig_52978_1.jpg'),
+	(3, 'package', 'https://tourimage.interpark.com/product/tour/00161/A60/1000/A6020760_1_470.jpg'),
+	(4, 'package', 'https://img.modetour.com/eagle/photoimg/10084/bfile/635865726403134229.jpg'),
+	(5, 'package', 'https://image.hanatour.com/usr/cms/resize/800_0/2024/03/16/10000/34c29c95-444f-4991-b298-8595145ecfeb.jpg'),
+	(6, 'package', 'http://tkfile.yes24.com/Upload2/Display/202503/20250307/m_mainbig_53040_1.jpg'),
+	(7, 'package', 'http://tkfile.yes24.com/Upload2/Display/202505/20250512/m_mainbig_53644.jpg'),
+	(8, 'package', 'http://tkfile.yes24.com/Upload2/Display/202503/20250320/mainbig_50841.jpg');
 
 -- 테이블 capstone.move_info 구조 내보내기
 DROP TABLE IF EXISTS `move_info`;
