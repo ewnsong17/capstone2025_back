@@ -188,11 +188,12 @@ class UserController {
    * @param {*} res 
    */
   async addMyTripPlace(req, res) {
+    console.log("📥 받은 req.body:", req.body);
     try {
       const user = req.session.user;
-      const { id, place, reg_date } = req.body;
+      const { id, name, place, reg_date } = req.body;
       if (user != null && id != null && place != null && reg_date != null) {
-        const result = await userService.addMyTripPlace(id, place, reg_date); // 서비스에서 데이터를 가져옴
+        const result = await userService.addMyTripPlace(id, name, place, reg_date); // 서비스에서 데이터를 가져옴
         res.status(200).json({ result: result });
       } else {
         throw new Error('로그인 정보가 존재하지 않습니다.');
