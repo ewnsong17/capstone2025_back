@@ -31,6 +31,20 @@ class MainController {
       res.status(500).json({result: false, exception: error.message});
     }
   }
+
+  async getApiKey(req, res) {
+    try {
+      const { type } = req.body;
+      if (type != null) {
+        const api_key = await mainService.getApiKey(type); // 서비스에서 데이터를 가져옴
+        res.status(200).json({result: true, api_key: api_key});
+      } else {
+        throw new Error('올바른 타입 값이 아닙니다.');
+      }
+    } catch (error) {
+      res.status(500).json({result: false, exception: error.message});
+    }
+  }
 }
 
 module.exports = new MainController();

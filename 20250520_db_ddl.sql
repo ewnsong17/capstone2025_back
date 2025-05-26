@@ -20,6 +20,22 @@ DROP DATABASE IF EXISTS `capstone`;
 CREATE DATABASE IF NOT EXISTS `capstone` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `capstone`;
 
+-- 테이블 capstone.api_key 구조 내보내기
+DROP TABLE IF EXISTS `api_key`;
+CREATE TABLE IF NOT EXISTS `api_key` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` enum('ai','amadeus') CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `value` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='API KEY 리스트';
+
+-- 테이블 데이터 capstone.api_key:~2 rows (대략적) 내보내기
+DELETE FROM `api_key`;
+INSERT INTO `api_key` (`id`, `type`, `value`) VALUES
+	(1, 'ai', ''),
+	(2, 'amadeus', '');
+
 -- 테이블 capstone.main_image_list 구조 내보내기
 DROP TABLE IF EXISTS `main_image_list`;
 CREATE TABLE IF NOT EXISTS `main_image_list` (

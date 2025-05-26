@@ -50,6 +50,25 @@ class MainService {
       throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
     }
   }
+
+  /**
+   * API KEY 가져오기
+   * @returns 
+   */
+  async getApiKey(type) {
+    try {
+      const results = await db.query('SELECT * FROM `api_key` WHERE `type` = ?', [type]); // 데이터 조회
+  
+      for (var result of results) {
+        return result.value;
+      }
+
+      return null;
+    } catch (err) {
+      console.error(err);
+      throw new Error('데이터베이스 오류가 발생하여 처리하지 못했습니다.');
+    }
+  }
 }
 
 module.exports = new MainService();
