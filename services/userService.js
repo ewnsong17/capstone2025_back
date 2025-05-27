@@ -74,7 +74,9 @@ class UserService {
    */
   async getReviewList(user_id) {
     try {
-      var results = await db.query("SELECT re.id, inf.id as `place_id`, inf.name, inf.place, inf.reg_date, re.rate, re.comment FROM `user_review` re INNER JOIN `my_trip_info` inf ON (re.id = inf.id) WHERE inf.`user_id` = ?", [user_id]); // 데이터 조회
+      var results = await db.query("SELECT re.id, inf.id as `place_id`, inf.name, inf.place, inf.reg_date, re.rate, re.comment FROM `user_review` re\
+                                      INNER JOIN `my_trip_info` pl ON (re.id = pl.id)\
+                                      INNER JOIN `my_trip_place_info` inf ON (pl.id = inf.trip_id) WHERE pl.`user_id` = ?", [user_id]); // 데이터 조회
 
       const review_list = {};
 

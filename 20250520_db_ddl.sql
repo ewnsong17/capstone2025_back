@@ -241,11 +241,11 @@ CREATE TABLE IF NOT EXISTS `user_review` (
 
 -- 테이블 데이터 capstone.user_review:~4 rows (대략적) 내보내기
 DELETE FROM `user_review`;
-INSERT INTO `user_review` (`id`, `user_id`, `target_id`, `rate`, `comment`, `type`) VALUES
-	(1, 7, 1, 48, '바다가 이뻐요', 'package'),
-	(2, 7, 3, 97, '벚꽃이 이뻐요', 'package'),
-	(3, 7, 4, 58, '생각보다 별로에요', 'package'),
-	(4, 7, 3, 58, '내 여행 리뷰에요', 'mine');
+INSERT INTO `user_review` (`id`, `user_id`, `target_id`, `rate`, `comment`) VALUES
+	(1, 7, 1, 48, '바다가 이뻐요'),
+	(2, 7, 3, 97, '벚꽃이 이뻐요'),
+	(3, 7, 4, 58, '생각보다 별로에요'),
+	(4, 7, 3, 58, '내 여행 리뷰에요');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
