@@ -74,14 +74,21 @@ class UserService {
    */
   async getReviewList(user_id) {
     try {
-      var results = await db.query("SELECT re.id, inf.id as `place_id`, inf.name, inf.place, inf.reg_date, re.rate, re.comment FROM `user_review` re\
-                                      INNER JOIN `my_trip_info` pl ON (re.id = pl.id)\
-                                      INNER JOIN `my_trip_place_info` inf ON (pl.id = inf.trip_id) WHERE pl.`user_id` = ?", [user_id]); // 데이터 조회
+      const results = await db.query(
+        `SELECT re.id, inf.id AS place_id, inf.name, inf.place, inf.reg_date, re.rate, re.comment
+       FROM user_review re
+       JOIN my_trip_place_info inf ON re.target_id = inf.id
+       JOIN my_trip_info trip ON inf.trip_id = trip.id
+       WHERE re.user_id = ?`, 
+        [user_id]
+      );
 
       const review_list = {};
-
-      for (var result of results) {
-        review_list[result.id] = (new Review(result.id, result.place_id, result.name, result.place, result.reg_date, result.rate, result.comment));
+      for (const result of results) {
+        review_list[result.id] = new Review(
+          result.id, result.place_id, result.name, result.place,
+          result.reg_date, result.rate, result.comment
+        );
       }
 
       return review_list;
