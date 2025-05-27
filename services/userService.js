@@ -99,7 +99,7 @@ class UserService {
    */
   async addReview(user_id, id, rate, comment) {
     try {
-      const results = await db.query("INSERT INTO `user_review` (`id`, `user_id`, `package_id`, `rate`, `comment`) VALUES (DEFAULT, ?, ?, ?, ?)", [user_id, id, rate, comment]); // 데이터 조회
+      const results = await db.query("INSERT INTO `user_review` (`id`, `user_id`, `target_id`, `rate`, `comment`) VALUES (DEFAULT, ?, ?, ?, ?)", [user_id, id, rate, comment]); // 데이터 조회
       return results != null;
     } catch (err) {
       console.error(err);

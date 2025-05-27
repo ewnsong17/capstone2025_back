@@ -233,7 +233,6 @@ CREATE TABLE IF NOT EXISTS `user_review` (
   `target_id` int NOT NULL,
   `rate` int NOT NULL,
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `type` enum('mine','package') CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK__user_info` (`user_id`),
   KEY `FK_user_review_package_info` (`target_id`) USING BTREE,
