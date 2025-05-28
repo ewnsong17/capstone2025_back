@@ -23,7 +23,7 @@ class AI {
         text = `${start_date}부터 ${end_date}까지 ${city}로 여행을 갑니다.`;
         text += `\n각 날짜별로 3개의 여행지를 추천해 주세요. 마지막 날은 2곳만 추천해 주세요.`;
       }
-
+      
       text += `\n\n여행지 설명은 한 줄 정도로 짧게 해주세요. 그리고 아래 형식을 반드시 지켜 주세요:\n`;
       text += `\n**YYYY-MM-DD (n일차)**\n**장소명1**\n- 설명\n**장소명2**\n- 설명\n...`;
 
@@ -35,7 +35,8 @@ class AI {
       text += `-설명`
       text += `**장소명2**`
       text += `-설명`
-      text += `\n사용자의 취향은 '${taste}'입니다.`;
+      text += `\n사용자의 취향은 '${taste}'입니다.`
+      text += `날짜는 반드시 YYYY-MM-DD 형식으로만 출력`;
 
       const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-preview-03-25:generateContent?key=${this.ai.apiKey}`;
 
